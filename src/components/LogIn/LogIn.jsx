@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { DataContext } from '../AuthProvider/AuthProvider';
+import axios from 'axios';
 
 const LogIn = () => {
+    const [email, setEmail] = useState(null)
+    const [password, setPassword] = useState(null)
+    const { logIn } = useContext(DataContext)
+    const handleLogIn = (e) => {
+        e.preventDefault()
+        logIn(email, password)
+            .then(res => {
+                console.log(res.user)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        axios.post('http://localhost:5000/jwt', email, { withCredentials: true })
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -10,18 +33,28 @@ const LogIn = () => {
                     <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm p-3 shadow-2xl bg-base-100">
-                    <form className="card-body">
+                    <form onSubmit={handleLogIn} className="card-body">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" placeholder="email" className="input input-bordered" required />
+                            <input
+                                onChange={(e) => setEmail(e.target.value)}
+                                type="email"
+                                placeholder="email"
+                                className="input input-bordered"
+                                required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" placeholder="password" className="input input-bordered" required />
+                            <input
+                                onChange={(e) => setPassword(e.target.value)}
+                                type="password"
+                                placeholder="password"
+                                className="input input-bordered"
+                                required />
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>

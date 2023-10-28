@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLoaderData, useParams } from 'react-router-dom';
 import { DataContext } from '../AuthProvider/AuthProvider';
 import ServiceFacilities from './ServiceFacilities';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
 const ServiceDetails = () => {
-    const { id } = useParams()
-    console.log(id);
+    // const { id } = useParams()
+    // console.log(id);
     const { services } = useContext(DataContext)
-    console.log(services);
-    const service = services.find(service => service._id === id)
+    // console.log(services);
+    // const service = services.find(service => service._id === id)
+    // console.log(service);
+    const service = useLoaderData()
     console.log(service);
     return (
         <div className=' flex flex-col md:flex-row lg:flex-row gap-10'>
@@ -42,7 +44,7 @@ const ServiceDetails = () => {
                 </div>
                 <div className=' flex flex-col gap-3 items-center'>
                     <h4>{service?.price}</h4>
-                    <Link to={`/checkout/${id}`} className=' text-[#FFf] bg-[#FF3811] w-full rounded-md py-3 text-center'>
+                    <Link to={`/checkout/${service._id}`} className=' text-[#FFf] bg-[#FF3811] w-full rounded-md py-3 text-center'>
                         <button >Proceed Checkout</button>
                     </Link>
                 </div>

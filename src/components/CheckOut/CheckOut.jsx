@@ -1,32 +1,28 @@
 import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { DataContext } from '../AuthProvider/AuthProvider';
 import axios from 'axios';
 
 const CheckOut = () => {
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState(null)
-    const [phone, setPhone] = useState(null)
+    const [phone, setPhone] = useState('')
+    const [name, setName] = useState('')
     const [date, setDate] = useState(null)
     const [message, setMessage] = useState('')
-    const { id } = useParams()
-    console.log(id);
-    const { services } = useContext(DataContext)
-    console.log(services);
-    const service = services?.find(service => service._id === id)
-    console.log(service);
-    const serviceName = service?.title
-    console.log(serviceName);
-    const image = service.img
+    const { user } = useContext(DataContext)
+    const service = useLoaderData()
+    const { img, title, price } = service
+    const email = user?.email
     const order = {
-        firstName, lastName, email, phone, serviceName, image,message,date
+        title, email, phone, img, message, date, price
     }
     const handleToCart = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5000/cart', order)
+        axios.post('http://localhost:5000/cart?=', order)
             .then((response) => {
                 console.log(response.data);
+                if (response.data.insertedId) {
+                    alert('successfully booked service')
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -41,12 +37,11 @@ const CheckOut = () => {
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div className="sm:col-span-3">
                                 <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    First name
+                                    Name
                                 </label>
                                 <div className="mt-2">
                                     <input
-                                        onChange={(e) => { setFirstName(e.target.value) }}
-                                        required
+                                        onChange={(e) => { setName(e.target.value) }}
                                         type="text"
                                         name="first-name"
                                         id="first-name"
@@ -72,29 +67,13 @@ const CheckOut = () => {
                                 </div>
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Last name
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        onChange={(e) => { setLastName(e.target.value) }}
-                                        required
-                                        type="text"
-                                        name="last-name"
-                                        id="last-name"
-                                        autoComplete="family-name"
-                                        className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-                            <div className="sm:col-span-3">
                                 <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
                                     Email
                                 </label>
                                 <div className="mt-2">
                                     <input
-                                        onChange={(e) => { setEmail(e.target.value) }}
-                                        required
+                                        defaultValue={email}
+                                        readOnly
                                         type="email"
                                         name="email"
                                         id="email"
@@ -103,19 +82,34 @@ const CheckOut = () => {
                                     />
                                 </div>
                             </div>
+                            <div className="sm:col-span-3">
+                                <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Phone
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        onChange={(e) => { setPhone(e.target.value) }}
+                                        required
+                                        type="text"
+                                        name="phone"
+                                        id="phone"
+                                        autoComplete="family-name"
+                                        className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="sm:col-span-3">
                             <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                Phone
+                                Image
                             </label>
                             <div className="mt-2">
                                 <input
-                                    onChange={(e) => { setPhone(e.target.value) }}
-                                    required
+                                    defaultValue={img}
                                     type="text"
-                                    name="phone"
-                                    id="phone"
-                                    autoComplete="family-name"
+                                    name="image"
+                                    id="image"
+                                    autoComplete="image"
                                     className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
