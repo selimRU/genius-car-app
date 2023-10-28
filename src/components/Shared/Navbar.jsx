@@ -1,7 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/assets/logo.svg'
+import { useContext } from 'react';
+import { DataContext } from '../AuthProvider/AuthProvider';
 
 const Navbar = () => {
+    const { user,logOut } = useContext(DataContext)
     const links = <div className=' flex flex-col md:flex-col lg:flex-row gap-4 items-center text-base font-semibold'>
         <NavLink to={'/'}>Home</NavLink>
         <NavLink to={'/about'}>About</NavLink>
@@ -26,8 +29,13 @@ const Navbar = () => {
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn text-red-400">Appointment</a>
+            <div className="navbar-end space-x-2">
+                {user ?
+                    <button onClick={logOut} className='btn text-red-400'>LogOut</button>
+                    :
+                    <Link to={'/login'}><button className='btn text-red-400'>LogIn</button></Link>
+                }
+                <button className="btn hidden lg:block md:hidden text-red-400">Appointment</button>
             </div>
         </div>
     );

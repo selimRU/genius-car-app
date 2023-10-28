@@ -9,7 +9,7 @@ const ServiceDetails = () => {
     console.log(id);
     const { services } = useContext(DataContext)
     console.log(services);
-    const service = services?.find(service => service._id === id)
+    const service = services.find(service => service._id === id)
     console.log(service);
     return (
         <div className=' flex flex-col md:flex-row lg:flex-row gap-10'>
@@ -26,7 +26,7 @@ const ServiceDetails = () => {
                     }
                 </div>
             </div>
-            <div className=' lg:w-[20%] rounded-md'>
+            <div className=' lg:w-[20%] rounded-md space-y-4'>
                 <h4 className=' px-4 text-xl font-semibold'>Services</h4>
                 <div className='bg-slate-500 p-3 rounded-md '>
                     {
@@ -37,11 +37,17 @@ const ServiceDetails = () => {
                                     <AiOutlineArrowRight />
                                 </Link>
                             </div>
-
                         </div>)
                     }
                 </div>
+                <div className=' flex flex-col gap-3 items-center'>
+                    <h4>{service?.price}</h4>
+                    <Link to={`/checkout/${id}`} className=' text-[#FFf] bg-[#FF3811] w-full rounded-md py-3 text-center'>
+                        <button >Proceed Checkout</button>
+                    </Link>
+                </div>
             </div>
+
         </div>
     );
 };

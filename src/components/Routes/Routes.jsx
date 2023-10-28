@@ -3,6 +3,10 @@ import Root from "../Root/Root";
 import Home from "../Pages/Home/Home";
 import Services from "../Services/Services";
 import ServiceDetails from "../ServiceDetails/ServiceDetails";
+import LogIn from "../LogIn/LogIn";
+import SignUp from "../SignUp/SignUp";
+import CheckOut from "../CheckOut/CheckOut";
+import MyBookings from "../MyBookings/MyBookings";
 
 const router = createBrowserRouter([
     {
@@ -28,7 +32,21 @@ const router = createBrowserRouter([
             },
             {
                 path: '/bookings',
-                element: <Home></Home>
+                element: <MyBookings></MyBookings>,
+                loader: () => fetch('http://localhost:5000/cart')
+            },
+            {
+                path: '/login',
+                element: <LogIn></LogIn>
+            },
+            {
+                path: '/signup',
+                element: <SignUp></SignUp>
+            },
+            {
+                path: '/checkout/:id',
+                element: <CheckOut></CheckOut>,
+                loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`)
             },
         ]
     }
