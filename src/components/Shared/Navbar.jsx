@@ -4,12 +4,14 @@ import { useContext } from 'react';
 import { DataContext } from '../AuthProvider/AuthProvider';
 
 const Navbar = () => {
-    const { user,logOut } = useContext(DataContext)
+    const { user, logOut } = useContext(DataContext)
     const links = <div className=' flex flex-col md:flex-col lg:flex-row gap-4 items-center text-base font-semibold'>
         <NavLink to={'/'}>Home</NavLink>
         <NavLink to={'/about'}>About</NavLink>
         <NavLink to={'/services'}>Services</NavLink>
-        <NavLink to={'/bookings'}>My Bookings</NavLink>
+        {
+            user && <NavLink to={'/bookings'}>My Bookings</NavLink>
+        }
     </div>
     return (
         <div className="navbar bg-base-100">
@@ -31,7 +33,10 @@ const Navbar = () => {
             </div>
             <div className="navbar-end space-x-2">
                 {user ?
-                    <button onClick={logOut} className='btn text-red-400'>LogOut</button>
+                    <div className=' flex gap-2 items-center'>
+                        <p>{user.email}</p>
+                        <button onClick={logOut} className='btn text-red-400'>LogOut</button>
+                    </div>
                     :
                     <Link to={'/login'}><button className='btn text-red-400'>LogIn</button></Link>
                 }

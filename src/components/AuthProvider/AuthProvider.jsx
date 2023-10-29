@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import auth from '../Firebase/Firebase.config';
+import axios from 'axios';
 
 export const DataContext = createContext()
 const AuthProvider = ({ children }) => {
@@ -31,12 +32,16 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        fetch('http://localhost:5000/services')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setServices(data)
+        axios.get('http://localhost:5000/services', { withCredentials: true })
+            .then(res => {
+                setServices(res.data)
             })
+        // fetch('http://localhost:5000/services')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         setServices(data)
+        //     })
 
     }, [])
 

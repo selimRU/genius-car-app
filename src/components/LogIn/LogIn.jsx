@@ -12,16 +12,16 @@ const LogIn = () => {
         logIn(email, password)
             .then(res => {
                 console.log(res.user)
+                const user = { email }
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                    .then(res => {
+                        console.log(res.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             })
             .catch(error => {
-                console.log(error);
-            })
-
-        axios.post('http://localhost:5000/jwt', email, { withCredentials: true })
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch((error) => {
                 console.log(error);
             })
     }

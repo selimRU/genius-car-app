@@ -10,14 +10,22 @@ const CheckOut = () => {
     const [message, setMessage] = useState('')
     const { user } = useContext(DataContext)
     const service = useLoaderData()
-    const { img, title, price } = service
+    const { img, title, price, _id } = service
     const email = user?.email
     const order = {
-        title, email, phone, img, message, date, price
+        service: title,
+        email: email,
+        phone: phone,
+        photo: img,
+        message: message,
+        date: date,
+        price: price,
+        customer_name: name,
+        service_id: _id
     }
     const handleToCart = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5000/cart?=', order)
+        axios.post('http://localhost:5000/cart', order,)
             .then((response) => {
                 console.log(response.data);
                 if (response.data.insertedId) {
