@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        axios.get('http://localhost:5000/services', { withCredentials: true })
+        axios.get('http://localhost:5000/services')
             .then(res => {
                 setServices(res.data)
             })
@@ -50,7 +50,8 @@ const AuthProvider = ({ children }) => {
         createUser,
         logIn,
         user,
-        logOut
+        logOut,
+        loading
     }
     return (
         <DataContext.Provider value={values}>

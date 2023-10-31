@@ -2,18 +2,17 @@
 import BookingCard from "./BookingCard";
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../AuthProvider/AuthProvider";
+import AxiosSecure from "../AxiosSecure/AxiosSecure";
 import axios from "axios";
 
 
 const MyBookings = () => {
     const { user } = useContext(DataContext)
-
+    const axiosSecure = AxiosSecure()
     const [bookings, setBookings] = useState([])
-    console.log(bookings);
-    console.log(user);
-    const url = `http://localhost:5000/cart?email=${user?.email}`
+    const url = (`/cart?email=${user?.email}`)
     useEffect(() => {
-        axios.get(url, { withCredentials: true })
+        axiosSecure.get(url)
             .then(res => {
                 setBookings(res.data)
             })

@@ -7,6 +7,9 @@ import LogIn from "../LogIn/LogIn";
 import SignUp from "../SignUp/SignUp";
 import CheckOut from "../CheckOut/CheckOut";
 import MyBookings from "../MyBookings/MyBookings";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import About from "../Pages/About/About";
+import AllServices from "../AllServices/AllServices";
 
 const router = createBrowserRouter([
     {
@@ -19,11 +22,12 @@ const router = createBrowserRouter([
             },
             {
                 path: '/about',
-                element: <Home></Home>
+                element: <PrivateRoute><About></About></PrivateRoute>
             },
             {
                 path: '/services',
-                element: <Home></Home>
+                element: <AllServices></AllServices>,
+                loader: () => fetch('http://localhost:5000/servicesCount')
             },
             {
                 path: '/servicesDetails/:id',
@@ -32,7 +36,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/bookings',
-                element: <MyBookings></MyBookings>,
+                element: <PrivateRoute><MyBookings></MyBookings></PrivateRoute>,
             },
             {
                 path: '/login',
